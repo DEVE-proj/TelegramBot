@@ -1,8 +1,8 @@
 FROM python:latest
 
 WORKDIR /app
-COPY . .
+COPY . /app
 
 RUN pip install -r req.txt
 
-ENTRYPOINT [ "python src/main.py" ]
+ENTRYPOINT [ "python", "src/main.py" ]
