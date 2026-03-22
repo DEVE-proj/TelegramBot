@@ -1,14 +1,22 @@
-from telebot import TeleBot
+from telebot.async_telebot import AsyncTeleBot
 from dotenv import load_dotenv
 import os
+from api.api import Api
+import asyncio
 
 load_dotenv()
 
-bot = TeleBot(os.getenv("BOT_TOKEN"))
+bot = AsyncTeleBot("")
 
-@bot.message_handler(commands=['start'])
-def start(message):
+@bot.message_handler(commands=['news'])
+async def start(message):
 
-    bot.send_message(message.chat.id, "Hello!)")
+    news = await Api.get_all_posts()
 
-bot.polling()
+    for post in news:
+
+        await bot.send_message(message.chat.id, post)
+
+if __name__ == "__main__":
+
+    asyncio.run(bot.polling())
